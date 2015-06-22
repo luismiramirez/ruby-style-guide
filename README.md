@@ -332,22 +332,6 @@ Translations of the guide are available in the following languages:
     calc_something_else
   end
 
-  # good - it's apparent what's going on
-  kind = case year
-         when 1850..1889 then 'Blues'
-         when 1890..1909 then 'Ragtime'
-         when 1910..1929 then 'New Orleans Jazz'
-         when 1930..1939 then 'Swing'
-         when 1940..1950 then 'Bebop'
-         else 'Jazz'
-         end
-
-  result = if some_cond
-             calc_something
-           else
-             calc_something_else
-           end
-
   # good (and a bit more width efficient)
   kind =
     case year
@@ -426,31 +410,13 @@ Translations of the guide are available in the following languages:
   While several Ruby books suggest the first style, the second is much more
   prominent in practice (and arguably a bit more readable).
 
-* <a name="no-trailing-backslash"></a>
-  Avoid line continuation `\` where not required. In practice, avoid using
-  line continuations for anything but string concatenation.
-<sup>[[link](#no-trailing-backslash)]</sup>
-
-  ```Ruby
-  # bad
-  result = 1 - \
-           2
-
-  # good (but still ugly as hell)
-  result = 1 \
-           - 2
-
-  long_string = 'First part of the long string' \
-                ' and second part of the long string'
-  ```
-
 * <a name="consistent-multi-line-chains"></a>
     Adopt a consistent multi-line method chaining style. There are two
     popular styles in the Ruby community, both of which are considered
     good - leading `.` (Option A) and trailing `.` (Option B).
 <sup>[[link](#consistent-multi-line-chains)]</sup>
 
-  * **(Option A)** When continuing a chained method invocation on
+  * When continuing a chained method invocation on
     another line keep the `.` on the second line.
 
     ```Ruby
@@ -461,20 +427,6 @@ Translations of the guide are available in the following languages:
     # good - it's immediately clear what's going on the second line
     one.two.three
       .four
-    ```
-
-  * **(Option B)** When continuing a chained method invocation on another line,
-    include the `.` on the first line to indicate that the
-    expression continues.
-
-    ```Ruby
-    # bad - need to read ahead to the second line to know that the chain continues
-    one.two.three
-      .four
-
-    # good - it's immediately clear that the expression continues beyond the first line
-    one.two.three.
-      four
     ```
 
   A discussion on the merits of both alternative styles can be found
@@ -502,14 +454,6 @@ Translations of the guide are available in the following languages:
         body: source.text)
   end
 
-  # good
-  def send_mail(source)
-    Mailer.deliver(to: 'bob@example.com',
-                   from: 'us@example.com',
-                   subject: 'Important message',
-                   body: source.text)
-  end
-
   # good (normal indent)
   def send_mail(source)
     Mailer.deliver(
@@ -535,11 +479,6 @@ Translations of the guide are available in the following languages:
     'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam',
     'Baked beans', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam'
   ]
-
-  # good
-  menu_item =
-    ['Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam',
-     'Baked beans', 'Spam', 'Spam', 'Spam', 'Spam', 'Spam']
   ```
 
 * <a name="underscores-in-numerics"></a>
@@ -559,9 +498,9 @@ Translations of the guide are available in the following languages:
     empty line between the comment block and the `def`.
 <sup>[[link](#rdoc-conventions)]</sup>
 
-* <a name="80-character-limits"></a>
-  Limit lines to 80 characters.
-<sup>[[link](#80-character-limits)]</sup>
+* <a name="100-character-limits"></a>
+  Limit lines to 100 characters.
+<sup>[[link](#100-character-limits)]</sup>
 
 * <a name="no-trailing-whitespace"></a>
   Avoid trailing whitespace.
@@ -929,9 +868,6 @@ Translations of the guide are available in the following languages:
 
   # good
   do_something unless some_condition
-
-  # another good option
-  some_condition || do_something
   ```
 
 * <a name="no-else-with-unless"></a>
@@ -1286,12 +1222,6 @@ condition](#safe-assignment-in-condition).
   ```Ruby
   # bad (+ a warning)
   if v = array.grep(/foo/)
-    do_something(v)
-    ...
-  end
-
-  # good (MRI would still complain, but RuboCop won't)
-  if (v = array.grep(/foo/))
     do_something(v)
     ...
   end
@@ -1723,22 +1653,6 @@ no parameters.
     end
     ```
 
-* <a name="no-BEGIN-blocks"></a>
-  Avoid the use of `BEGIN` blocks.
-<sup>[[link](#no-BEGIN-blocks)]</sup>
-
-* <a name="no-END-blocks"></a>
-  Do not use `END` blocks. Use `Kernel#at_exit` instead.
-<sup>[[link](#no-END-blocks)]</sup>
-
-  ```ruby
-  # bad
-  END { puts 'Goodbye!' }
-
-  # good
-  at_exit { puts 'Goodbye!' }
-  ```
-
 * <a name="no-flip-flops"></a>
   Avoid the use of flip-flops.
 <sup>[[link](#no-flip-flops)]</sup>
@@ -1789,16 +1703,6 @@ no parameters.
     puts item
   end
   ```
-
-* <a name="map-find-select-reduce-size"></a>
-  Prefer `map` over `collect`, `find` over `detect`, `select` over `find_all`,
-  `reduce` over `inject` and `size` over `length`. This is not a hard
-  requirement; if the use of the alias enhances readability, it's ok to use it.
-  The rhyming methods are inherited from Smalltalk and are not common in other
-  programming languages. The reason the use of `select` is encouraged over
-  `find_all` is that it goes together nicely with `reject` and its name is
-  pretty self-explanatory.
-<sup>[[link](#map-find-select-reduce-size)]</sup>
 
 * <a name="count-vs-size"></a>
   Don't use `count` as a substitute for `size`. For `Enumerable` objects other
@@ -1925,7 +1829,7 @@ no parameters.
   class SomeXML
     ...
   end
-  
+
   class XMLSomething
     ...
   end
@@ -2013,22 +1917,6 @@ no parameters.
     def flatten_once
       dup.flatten_once!
     end
-  end
-  ```
-
-* <a name="reduce-blocks"></a>
-  When using `reduce` with short blocks, name the arguments `|a, e|`
-  (accumulator, element).
-<sup>[[link](#reduce-blocks)]</sup>
-
-* <a name="other-arg"></a>
-  When defining binary operators, name the parameter `other`(`<<` and `[]` are
-  exceptions to the rule, since their semantics are different).
-<sup>[[link](#other-arg)]</sup>
-
-  ```Ruby
-  def +(other)
-    # body omitted
   end
   ```
 
@@ -2197,49 +2085,6 @@ no parameters.
   end
   ```
 
-* <a name="file-classes"></a>
-  Don't nest multi line classes within classes. Try to have such nested
-  classes each in their own file in a folder named like the containing class.
-<sup>[[link](#file-classes)]</sup>
-
-  ```Ruby
-  # bad
-
-  # foo.rb
-  class Foo
-    class Bar
-      # 30 methods inside
-    end
-
-    class Car
-      # 20 methods inside
-    end
-
-    # 30 methods inside
-  end
-
-  # good
-
-  # foo.rb
-  class Foo
-    # 30 methods inside
-  end
-
-  # foo/bar.rb
-  class Foo
-    class Bar
-      # 30 methods inside
-    end
-  end
-
-  # foo/car.rb
-  class Foo
-    class Car
-      # 20 methods inside
-    end
-  end
-  ```
-
 * <a name="modules-vs-classes"></a>
   Prefer modules to classes with only class methods. Classes should be used
   only when it makes sense to create instances out of them.
@@ -2269,39 +2114,6 @@ no parameters.
   end
   ```
 
-* <a name="module-function"></a>
-  Favor the use of `module_function` over `extend self` when you want to turn
-  a module's instance methods into class methods.
-<sup>[[link](#module-function)]</sup>
-
-  ```Ruby
-  # bad
-  module Utilities
-    extend self
-
-    def parse_something(string)
-      # do stuff here
-    end
-
-    def other_utility_method(number, string)
-      # do some more stuff
-    end
-  end
-
-  # good
-  module Utilities
-    module_function
-
-    def parse_something(string)
-      # do stuff here
-    end
-
-    def other_utility_method(number, string)
-      # do some more stuff
-    end
-  end
-  ```
-
 * <a name="liskov"></a>
   When designing class hierarchies make sure that they conform to the [Liskov
   Substitution
@@ -2313,26 +2125,6 @@ no parameters.
   [SOLID](http://en.wikipedia.org/wiki/SOLID_\(object-oriented_design\)) as
   possible.
 <sup>[[link](#solid-design)]</sup>
-
-* <a name="define-to-s"></a>
-  Always supply a proper `to_s` method for classes that represent domain
-  objects.
-<sup>[[link](#define-to-s)]</sup>
-
-  ```Ruby
-  class Person
-    attr_reader :first_name, :last_name
-
-    def initialize(first_name, last_name)
-      @first_name = first_name
-      @last_name = last_name
-    end
-
-    def to_s
-      "#{@first_name} #{@last_name}"
-    end
-  end
-  ```
 
 * <a name="attr_family"></a>
   Use the `attr` family of functions to define trivial accessors or mutators.
@@ -2900,7 +2692,7 @@ resource cleanup when possible.
 
 * <a name="percent-w"></a>
   Prefer `%w` to the literal array syntax when you need an array of words
-  (non-empty strings without spaces and special characters in them).  Apply this
+  (non-empty strings without spaces and special characters in them). Apply this
   rule only to arrays with two or more elements.
 <sup>[[link](#percent-w)]</sup>
 
@@ -3142,9 +2934,6 @@ resource cleanup when possible.
 
   # good
   email_with_name = "#{user.name} <#{user.email}>"
-
-  # good
-  email_with_name = format('%s <%s>', user.name, user.email)
   ```
 
 * <a name="string-interpolation"></a>
@@ -3158,37 +2947,6 @@ resource cleanup when possible.
   # good
   "From: #{user.first_name}, #{user.last_name}"
   ```
-
-* <a name="consistent-string-literals"></a>
-  Adopt a consistent string literal quoting style. There are two popular
-  styles in the Ruby community, both of which are considered good - single
-  quotes by default (Option A) and double quotes by default (Option B).
-<sup>[[link](#consistent-string-literals)]</sup>
-
-  * **(Option A)** Prefer single-quoted strings when you don't need
-    string interpolation or special symbols such as `\t`, `\n`, `'`,
-    etc.
-
-    ```Ruby
-    # bad
-    name = "Bozhidar"
-
-    # good
-    name = 'Bozhidar'
-    ```
-
-  * **(Option B)** Prefer double-quotes unless your string literal
-    contains `"` or escape characters you want to suppress.
-
-    ```Ruby
-    # bad
-    name = 'Bozhidar'
-
-    # good
-    name = "Bozhidar"
-    ```
-
-  The string literals in this guide are aligned with the first style.
 
 * <a name="no-character-literals"></a>
   Don't use the character literal syntax `?x`. Since Ruby 1.9 it's basically
@@ -3499,7 +3257,7 @@ resource cleanup when possible.
 <sup>[[link](#no-needless-metaprogramming)]</sup>
 
 * <a name="no-monkey-patching"></a>
-  Do not mess around in core classes when writing libraries.  (Do not
+  Do not mess around in core classes when writing libraries.  (Avoid
   monkey-patch them.)
 <sup>[[link](#no-monkey-patching)]</sup>
 
@@ -3639,7 +3397,8 @@ resource cleanup when possible.
 <sup>[[link](#no-param-mutations)]</sup>
 
 * <a name="three-is-the-number-thou-shalt-count"></a>
-  Avoid more than three levels of block nesting.
+  Avoid more than three levels of block nesting. Except if you are using a json
+  builder ie(JBuilder)
 <sup>[[link](#three-is-the-number-thou-shalt-count)]</sup>
 
 * <a name="be-consistent"></a>
@@ -3660,59 +3419,4 @@ this guide.
 [RuboCop][] is a Ruby code style
 checker based on this style guide. RuboCop already covers a
 significant portion of the Guide, supports both MRI 1.9 and MRI 2.0
-and has good Emacs integration.
-
-### RubyMine
-
-[RubyMine](http://www.jetbrains.com/ruby/)'s code inspections are
-[partially based](http://confluence.jetbrains.com/display/RUBYDEV/RubyMine+Inspections)
-on this guide.
-
-# Contributing
-
-The guide is still a work in progress - some rules are lacking examples, some
-rules don't have examples that illustrate them clearly enough. Improving such rules
-is a great (and simple way) to help the Ruby community!
-
-In due time these issues will (hopefully) be addressed - just keep them in mind
-for now.
-
-Nothing written in this guide is set in stone. It's my desire to work
-together with everyone interested in Ruby coding style, so that we could
-ultimately create a resource that will be beneficial to the entire Ruby
-community.
-
-Feel free to open tickets or send pull requests with improvements. Thanks in
-advance for your help!
-
-You can also support the project (and RuboCop) with financial
-contributions via [gittip](https://www.gittip.com/bbatsov).
-
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/bbatsov)
-
-## How to Contribute?
-
-It's easy, just follow the [contribution guidelines](https://github.com/bbatsov/ruby-style-guide/blob/master/CONTRIBUTING.md).
-
-# License
-
-![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png)
-This work is licensed under a [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
-
-# Spread the Word
-
-A community-driven style guide is of little use to a community that
-doesn't know about its existence. Tweet about the guide, share it with
-your friends and colleagues. Every comment, suggestion or opinion we
-get makes the guide just a little bit better. And we want to have the
-best possible guide, don't we?
-
-Cheers,<br>
-[Bozhidar](https://twitter.com/bbatsov)
-
-[PEP-8]: http://www.python.org/dev/peps/pep-0008/
-[rails-style-guide]: https://github.com/bbatsov/rails-style-guide
-[pickaxe]: http://pragprog.com/book/ruby4/programming-ruby-1-9-2-0
-[trpl]: http://www.amazon.com/Ruby-Programming-Language-David-Flanagan/dp/0596516177
-[transmuter]: https://github.com/TechnoGate/transmuter
-[RuboCop]: https://github.com/bbatsov/rubocop
+and has good Emacs integration. :trollface:
